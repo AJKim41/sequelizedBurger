@@ -1,0 +1,47 @@
+<h1>Eat-Da-Burger</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Available</h3> {{#each burgers}} {{this.id}} {{this.burger_name}} <button id="{{this.id}}" class="devour"
+        value="{{this.id}}">Devour it!</button> {{/each}}
+    </div>
+    <div class=" col-md-6">
+      <h3> Devoured </h3> {{#each devBurgers}} {{this.id}} {{this.burger_name}} {{/each}}
+    </div>
+  </div>
+  <form action="/api/burger" method="POST">
+    <textarea id="burger_name" name="burger_name"></textarea>
+    <button type="submit" id="submit">Submit</button>
+  </form>
+</div>
+<script type="text/javascript">
+
+  $(".devour").on("click", function (event) {
+    event.preventDefault();
+    let burgerToDevour = event.currentTarget.value;
+    console.log(burgerToDevour)
+    $.ajax({
+      type: 'PUT',
+      url: '/api/devour',
+      data: { id: burgerToDevour },
+    }).done(function (data) {
+      console.log('SUCCESS');
+    }).fail(function (msg) {
+      console.log('FAIL');
+    }).always(function (msg) {
+      console.log('ALWAYS');
+    });
+  });
+
+  let burgerData = document.getElementById('burger_name').value.trim();
+
+  $(".submit").on("click", function (event) {
+    event.preventDefault();
+    $.post("/api/burger",
+      function (data) {
+        document.getElementById("burger_name").value = ""
+      });
+
+  });
+
+</script>
