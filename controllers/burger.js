@@ -27,7 +27,7 @@ exports.devourBurger = (req, res) => {
     .then(updatedBurger => {
       console.log(req.body.id);
       res.json(updatedBurger);
-      res.redirec("/");
+      res.redirect("/");
     });
   /*   Burger.find({ where: { id: req.body } }).on("success", burger => {
     if (burger) {
